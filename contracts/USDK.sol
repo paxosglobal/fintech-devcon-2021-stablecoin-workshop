@@ -22,7 +22,7 @@ contract UsdToken is ERC20, Ownable {
      *
      * - `account` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) public virtual onlyOwner {
+    function mint(address account, uint256 amount) public onlyOwner {
         return _mint(account, amount);
     }
 
@@ -37,7 +37,7 @@ contract UsdToken is ERC20, Ownable {
      * - `account` cannot be the zero address.
      * - `account` must have at least `amount` tokens.
      */
-    function burn(address account, uint256 amount) public virtual onlyOwner {
+    function burn(address account, uint256 amount) public onlyOwner {
         return _burn(account, amount);
     }
 
