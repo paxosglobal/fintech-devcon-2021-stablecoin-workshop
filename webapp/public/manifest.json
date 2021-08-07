@@ -1,0 +1,20 @@
+{
+  "short_name": "USDK Stablecoin Workshop",
+  "name": "Moov fintech_devcon stablecoin workshop",
+  "icons": [
+      {
+        "src": "https://5pe95ukcuu-flywheel.netdna-ssl.com/wp-content/uploads/2018/05/cropped-favicon-1-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "https://5pe95ukcuu-flywheel.netdna-ssl.com/wp-content/uploads/2018/05/cropped-favicon-1.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
