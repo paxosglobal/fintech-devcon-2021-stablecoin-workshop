@@ -9,3 +9,5 @@ contract-bindings: contracts/USDK.sol
 		--abi="/sources/build/USDK.abi" \
 		--pkg=contracts --out="/sources/build/USDK.go"
 
+start-local: contract-bindings
+	docker-compose up

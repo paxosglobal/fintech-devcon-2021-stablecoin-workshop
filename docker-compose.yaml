@@ -1,0 +1,15 @@
+# Docker compose file for local testing.
+version: '3'
+services:
+  ganache:
+    image: trufflesuite/ganache-cli:v6.12.2
+    ports:
+      - "${GANACHE_PORTS:-8545:8545}"
+    command:
+      - "-m"
+      # Note that by setting this, we ensure there is sufficient ETH to deploy the contracts locally
+      # if the deploying address is a BIP44 ETH path down from this mnemonic.
+      - "fatal sting left detect anchor shock alone play hint skirt rib hobby"
+      - "-h"
+      - "0.0.0.0"
+      - "-d"
