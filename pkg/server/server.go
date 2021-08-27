@@ -14,18 +14,16 @@ type Server struct {
 	// TODO: blockchain connection
 
 	// data layer
-	mu          sync.Mutex
-	balances    Balances
-	deposits    []Deposit
-	withdrawals []Withdrawal
+	mu         sync.Mutex
+	balances   Balances
+	activities []Activity
 }
 
 func Init() *Server {
 	return &Server{
-		mu:          sync.Mutex{},
-		balances:    Balances{},
-		deposits:    []Deposit{},
-		withdrawals: []Withdrawal{},
+		mu:         sync.Mutex{},
+		balances:   Balances{},
+		activities: []Activity{},
 	}
 }
 
@@ -47,14 +45,12 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch request {
 	case req{"GET", "/balances"}:
 		s.getBalances(w, r)
+	case req{"GET", "/activities"}:
+		s.getAcvitities(w, r)
 	case req{"POST", "/deposits"}:
 		s.deposit(w, r)
-	case req{"GET", "/deposits"}:
-		s.getDeposits(w, r)
 	case req{"POST", "/withdrawals"}:
 		s.withdraw(w, r)
-	case req{"GET", "/withdrawals"}:
-		s.getWithdrawals(w, r)
 	default:
 		w.WriteHeader(http.StatusNotFound)
 	}
@@ -100,6 +96,12 @@ func (s *Server) getBalances(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func (s *Server) getAcvitities(w http.ResponseWriter, r *http.Request) {
+	s.do(w, r, nil, func() (interface{}, error) {
+		return s.activities, nil
+	})
+}
+
 func (s *Server) deposit(w http.ResponseWriter, r *http.Request) {
 	req := &Deposit{}
 	s.do(w, r, req, func() (interface{}, error) {
@@ -107,21 +109,9 @@ func (s *Server) deposit(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (s *Server) getDeposits(w http.ResponseWriter, r *http.Request) {
-	s.do(w, r, nil, func() (interface{}, error) {
-		return s.deposits, nil
-	})
-}
-
 func (s *Server) withdraw(w http.ResponseWriter, r *http.Request) {
 	req := &Withdrawal{}
 	s.do(w, r, req, func() (interface{}, error) {
 		return s.CreateWithdrawal(req)
-	})
-}
-
-func (s *Server) getWithdrawals(w http.ResponseWriter, r *http.Request) {
-	s.do(w, r, nil, func() (interface{}, error) {
-		return s.withdrawals, nil
 	})
 }

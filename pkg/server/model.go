@@ -11,9 +11,6 @@ type Balances struct {
 type Deposit struct {
 	Asset  string          `json:"asset"`
 	Amount decimal.Decimal `json:"amount"`
-	// forbidden in request
-	ID      uint64 `json:"id"`
-	ChainID string `json:"chainId"`
 }
 
 type Status string
@@ -27,8 +24,21 @@ type Withdrawal struct {
 	Asset              string          `json:"asset"`
 	Amount             decimal.Decimal `json:"amount"`
 	DestinationAddress string          `json:"destinationAddress"`
-	// forbidden in request
-	ID      uint64 `json:"id"`
-	ChainID string `json:"chainId"` // the id on the blockchain
-	Status  Status `json:"status"`  // CREATED|COMPLETED
+}
+
+type ActivityType string
+
+const (
+	TypeDeposit    Status = "DEPOSIT"
+	TypeWithdrawal Status = "WITHDRAWAL"
+)
+
+type Activity struct {
+	Type               ActivityType
+	Asset              string          `json:"asset"`
+	Amount             decimal.Decimal `json:"amount"`
+	DestinationAddress string          `json:"destinationAddress"`
+	ID                 uint64          `json:"id"`
+	ChainID            string          `json:"chainId"` // the id on the blockchain
+	Status             Status          `json:"status"`  // CREATED|COMPLETED
 }
