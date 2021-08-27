@@ -115,3 +115,7 @@ func (s *Server) withdraw(w http.ResponseWriter, r *http.Request) {
 		return s.CreateWithdrawal(req)
 	})
 }
+
+func (s *Server) nextActivityID() uint64 {
+	return uint64(len(s.activities) + 1)
+}
