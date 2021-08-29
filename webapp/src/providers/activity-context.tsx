@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Activity } from "../types/activity";
-import { Context, useEffect } from "react";
 import useInterval from "../hooks/useInterval";
 import { getActivities } from "../api";
 

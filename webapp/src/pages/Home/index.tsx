@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {Divider, Grid, Paper, TextField} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
+import { Divider, Grid, Paper } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import {getActivities, getBalances} from "../../api";
-import {DepositForm} from "../../components/DepositForm";
-import {WithdrawalForm} from "../../components/WithdrawalForm";
+import { getBalances } from "../../api";
+import { DepositForm } from "../../components/DepositForm";
+import { WithdrawalForm } from "../../components/WithdrawalForm";
 import Chart from "../../components/Chart";
-import {useActivities} from "../../providers/activity-context";
+import { useActivities } from "../../providers/activity-context";
 import useInterval from "../../hooks/useInterval";
-import {BalanceCards} from "../../components/Balances";
-import {Balances} from "../../types/activity";
+import { BalanceCards } from "../../components/Balances";
+import { Balances } from "../../types/activity";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,7 +29,7 @@ export default function Home() {
 
   const [balances, setBalances] = useState({} as Balances);
   const {
-    state: {activities},
+    state: { activities },
   } = useActivities();
   useInterval(() => {
     async function fetchApi() {
@@ -47,30 +47,30 @@ export default function Home() {
     }
 
     fetchApi();
-  }, [])
+  }, []);
 
   return (
     <div>
       <Grid container spacing={8}>
         <Grid item xs={12}>
-          <BalanceCards balances={balances}/>
+          <BalanceCards balances={balances} />
         </Grid>
         <Grid item xs={12}>
-          <Chart activities={activities}/>
+          <Chart activities={activities} />
         </Grid>
       </Grid>
-      <Divider className={classes.divider}/>
+      <Divider className={classes.divider} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
             <h3>Deposit</h3>
-            <DepositForm/>
+            <DepositForm />
           </Paper>
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
             <h3>Withdraw</h3>
-            <WithdrawalForm/>
+            <WithdrawalForm />
           </Paper>
         </Grid>
       </Grid>

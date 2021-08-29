@@ -1,17 +1,8 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
-import {
-  DataGrid,
-  GridColDef,
-  GridValueFormatterParams,
-  GridValueGetterParams,
-} from "@material-ui/data-grid";
+import { DataGrid, GridColDef } from "@material-ui/data-grid";
 
 import { useActivities } from "../../providers/activity-context";
-import { AssetType, currencyFormat } from "../../types/activity";
-
-// destinationAddress: string;
-// chainTxId: string;
+import { currencyFormat } from "../../types/activity";
 
 const columns: Array<GridColDef> = [
   {
