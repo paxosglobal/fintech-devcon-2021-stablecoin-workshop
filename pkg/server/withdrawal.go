@@ -24,7 +24,10 @@ func (s *Server) CreateWithdrawal(req *Withdrawal) (*Activity, error) {
 	s.balances.UsdInReserve = s.balances.UsdInReserve.Add(newActivity.Amount)   // put funds in reserve
 	s.balances.UsdkMinted = s.balances.UsdkMinted.Add(newActivity.Amount)       // mark as minted on chain
 
-	// TODO: implement kicking off an actual blockchain withdrawal
+	err := s.mint(req.DestinationAddress, req.Amount)
+	if err != nil {
+		return nil, err
+	}
 
 	return &newActivity, nil
 }

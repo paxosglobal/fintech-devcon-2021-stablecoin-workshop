@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"net/http"
 	"sync"
 )
@@ -12,7 +13,7 @@ import (
 
 type Server struct {
 	// dependencies
-	// TODO: blockchain connection
+	ethClient *ethclient.Client
 
 	// data layer
 	mu         sync.Mutex
@@ -21,7 +22,12 @@ type Server struct {
 }
 
 func Init() *Server {
+	ethClient, err := ethclient.Dial(GanacheNetworkAddr)
+	if err != nil {
+		panic(err)
+	}
 	return &Server{
+		ethClient:  ethClient,
 		mu:         sync.Mutex{},
 		balances:   Balances{},
 		activities: []Activity{},
