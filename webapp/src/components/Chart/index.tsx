@@ -1,32 +1,49 @@
-import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import { Title } from '../Title';
+import React from "react";
+import { useTheme } from "@material-ui/core/styles";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer,
+} from "recharts";
+import { Title } from "../Title";
+import { Activity, calcActivityAmount } from "../../types/activity";
 
-// Generate Sales Data
-function createData(time: string, amount: number) {
-  return { time, amount };
+interface ChartProps {
+  activities: Array<Activity>;
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', 2500),
-];
+interface ChartPoint {
+  count: number;
+  amount: number;
+}
 
-export default function Chart() {
+type ChartData = Array<ChartPoint>;
+
+const activitiesToChartData = (activities: Array<Activity>): ChartData => {
+  let previousSum = 0;
+  return activities.map((activity, i) => {
+    if (activities[i - 1] !== undefined) {
+      previousSum = previousSum + calcActivityAmount(activities[i - 1]);
+    }
+
+    return {
+      count: i,
+      amount: previousSum + calcActivityAmount(activity),
+    };
+  });
+};
+
+export default function Chart(props: ChartProps) {
   const theme = useTheme();
+  const data = activitiesToChartData(props.activities);
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
+      <Title>Balance History</Title>
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart
           data={data}
           margin={{
@@ -41,12 +58,17 @@ export default function Chart() {
             <Label
               angle={270}
               position="left"
-              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
+              style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
             >
-              Sales ($)
+              Activity History ($)
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
+          <Line
+            type="monotone"
+            dataKey="amount"
+            stroke={theme.palette.primary.main}
+            dot={false}
+          />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>

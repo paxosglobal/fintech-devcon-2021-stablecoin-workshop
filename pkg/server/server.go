@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	"net/http"
 	"sync"
 )
@@ -65,6 +66,7 @@ func (s *Server) do(w http.ResponseWriter, r *http.Request, requestDest interfac
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		spew.Dump("requestDest", requestDest)
 	}
 
 	s.mu.Lock()

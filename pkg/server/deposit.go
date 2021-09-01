@@ -15,9 +15,7 @@ func (s *Server) CreateDeposit(req *Deposit) (*Activity, error) {
 		CreatedAt:          time.Now(),
 		CompeletedAt:       nil,
 	}
-	s.mu.Lock()
 	s.activities = append(s.activities, newActivity)
 	s.balances.UsdOnPlatform = s.balances.UsdOnPlatform.Add(newActivity.Amount)
-	s.mu.Unlock()
 	return &newActivity, nil
 }
