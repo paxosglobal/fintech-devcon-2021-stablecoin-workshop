@@ -76,8 +76,9 @@ func (s *Server) mintWithExplicitSigning(destination string, amount decimal.Deci
 	if err != nil {
 		return err
 	}
-	if err := s.Broadcast(ctx, signedTx); err != nil {
-		panic(err)
+	err = s.Broadcast(ctx, signedTx)
+	if err != nil {
+		return err
 	}
 	return nil
 }
