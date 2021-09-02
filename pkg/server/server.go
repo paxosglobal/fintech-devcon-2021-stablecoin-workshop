@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"net/http"
 	"sync"
@@ -13,12 +15,17 @@ import (
 
 type Server struct {
 	// dependencies
-	ethClient *ethclient.Client
+	ethClient EthClient
 
 	// data layer
 	mu         sync.Mutex
 	balances   Balances
 	activities []Activity
+}
+
+type EthClient interface {
+	ethereum.ChainStateReader
+	bind.ContractBackend
 }
 
 func Init() *Server {

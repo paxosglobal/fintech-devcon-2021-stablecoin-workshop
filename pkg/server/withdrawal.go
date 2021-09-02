@@ -22,12 +22,13 @@ func (s *Server) CreateWithdrawal(req *Withdrawal) (*Activity, error) {
 	}
 	s.balances.UsdOnPlatform = s.balances.UsdOnPlatform.Sub(newActivity.Amount) // debut funds from on-platform holdings
 	s.balances.UsdInReserve = s.balances.UsdInReserve.Add(newActivity.Amount)   // put funds in reserve
-	s.balances.UsdkMinted = s.balances.UsdkMinted.Add(newActivity.Amount)       // mark as minted on chain
 
 	err := s.mint(req.DestinationAddress, req.Amount)
 	if err != nil {
 		return nil, err
 	}
+
+	s.balances.UsdkMinted = s.balances.UsdkMinted.Add(newActivity.Amount) // mark as minted on chain
 
 	return &newActivity, nil
 }
