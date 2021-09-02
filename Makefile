@@ -11,3 +11,9 @@ contract-bindings: contracts/USDK.sol
 
 start-local: contract-bindings
 	docker-compose up
+
+run-backend:
+	@go run ./cmd/backend
+
+run-frontend:
+	@cd webapp && npm start

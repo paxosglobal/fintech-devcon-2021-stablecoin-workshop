@@ -4,15 +4,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"net/http"
 	"sync"
+)
+
+const (
+	GanacheNetworkAddr = "ws://127.0.0.1:8545"
 )
 
 // nothing much to see in server.go. Just basic rpc to make the UI work with minimal code
 
 type Server struct {
 	// dependencies
-	// TODO: blockchain connection
+	ethClient EthClient
 
 	// data layer
 	mu         sync.Mutex
@@ -20,8 +27,18 @@ type Server struct {
 	activities []Activity
 }
 
+type EthClient interface {
+	ethereum.ChainStateReader
+	bind.ContractBackend
+}
+
 func Init() *Server {
+	ethClient, err := ethclient.Dial(GanacheNetworkAddr)
+	if err != nil {
+		panic(err)
+	}
 	return &Server{
+		ethClient:  ethClient,
 		mu:         sync.Mutex{},
 		balances:   Balances{},
 		activities: []Activity{},
