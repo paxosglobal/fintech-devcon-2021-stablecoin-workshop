@@ -54,7 +54,7 @@ func init() {
 }
 
 func (s *Server) mint(destination string, amount decimal.Decimal) error {
-	return s.mintWithBindings(destination, amount)
+	return s.mintWithExplicitSigning(destination, amount)
 }
 
 func (s *Server) mintWithBindings(destination string, amount decimal.Decimal) error {
@@ -67,19 +67,9 @@ func (s *Server) mintWithBindings(destination string, amount decimal.Decimal) er
 }
 
 func (s *Server) mintWithExplicitSigning(destination string, amount decimal.Decimal) error {
-	ctx := context.Background()
-	x, err := s.createMintTransaction(ctx, destination, amount)
-	if err != nil {
-		return err
-	}
-	signedTx, err := signTransaction(OwnerTransactor, x)
-	if err != nil {
-		return err
-	}
-	err = s.Broadcast(ctx, signedTx)
-	if err != nil {
-		return err
-	}
+	// ctx := context.Background()
+	// TODO: fill out this function for exercise 3!
+	// test it with `go test ./pkg/server -run TestMint`
 	return nil
 }
 
