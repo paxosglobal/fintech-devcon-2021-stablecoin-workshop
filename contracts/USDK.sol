@@ -1,6 +1,7 @@
 // contracts/ExampleToken.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
@@ -23,7 +24,7 @@ contract UsdToken is ERC20, Ownable {
      * - `account` cannot be the zero address.
      */
     function mint(address account, uint256 amount) public onlyOwner {
-        return _mint(account, amount);
+        // TODO: fill out this function for exercise 1!
     }
 
     /**
