@@ -107,7 +107,7 @@ func (s *Server) createMintTransaction(ctx context.Context, destination string, 
 	return types.NewTx(&types.DynamicFeeTx{
 		ChainID:   ChainIDLocal,
 		Nonce:     currentNonce,
-		GasFeeCap: header.BaseFee,           // TODO: I don't even know how the new cap model works
+		GasFeeCap: (&big.Int{}).Add(header.BaseFee, suggestedTipCap),
 		GasTipCap: suggestedTipCap,          // 1 gwei isn't very much in real life, you'll likely pay more
 		Gas:       OwnerTransactor.GasLimit, // gas limit - an upper bound on how much compute your transaction will use
 		To:        &contractAddress,
