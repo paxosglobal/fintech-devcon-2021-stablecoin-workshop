@@ -11,6 +11,10 @@ import (
 	"sync"
 )
 
+const (
+	GanacheNetworkAddr = "ws://127.0.0.1:8545"
+)
+
 // nothing much to see in server.go. Just basic rpc to make the UI work with minimal code
 
 type Server struct {

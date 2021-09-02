@@ -15,17 +15,25 @@ import (
 )
 
 const (
-	// same as the deployer address
-	OwnerPrivateKey    = "0xca3f21d12dbd7a6a301a70414c40c555761dfce4b3f84cb8ce5f9760a783e3f0"
-	GanacheNetworkAddr = "ws://127.0.0.1:8545"
-	ContractAddr       = "0xc4680463046E64b10Da390d9049D24b8EC43AaAB"
+	// The address used to deploy the contract becomes the owner
+	// We use the first address in the HD wallet that ganache creates with the seed in the docker-compose
+	OwnerPrivateKey = "0xca3f21d12dbd7a6a301a70414c40c555761dfce4b3f84cb8ce5f9760a783e3f0"
+	ContractAddr    = "0xc4680463046E64b10Da390d9049D24b8EC43AaAB"
 )
 
 var (
-	GanacheChainID  = big.NewInt(1337)
 	OwnerTransactor *bind.TransactOpts
-	DecimalToInt    = decimal.New(1, 18) // TODO: don't assume 18 decimals, call decimals()
+	DecimalToInt    = decimal.New(1, 18) // can also call decimals() on the contract to get the exponent (18)
 	UsdkABI         abi.ABI
+)
+
+type ChainId *big.Int
+
+var (
+	ChainIDMainnet ChainId = big.NewInt(1)
+	ChainIDRopsten ChainId = big.NewInt(3)
+	ChainIDRinkeby ChainId = big.NewInt(4)
+	ChainIDLocal   ChainId = big.NewInt(1337)
 )
 
 func init() {
@@ -33,7 +41,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	OwnerTransactor, err = bind.NewKeyedTransactorWithChainID(key, GanacheChainID)
+	OwnerTransactor, err = bind.NewKeyedTransactorWithChainID(key, ChainIDLocal)
 	if err != nil {
 		panic(err)
 	}
@@ -68,7 +76,6 @@ func (s *Server) mintWithExplicitSigning(destination string, amount decimal.Deci
 	if err != nil {
 		return err
 	}
-	log.Print("signed")
 	if err := s.Broadcast(ctx, signedTx); err != nil {
 		panic(err)
 	}
@@ -82,16 +89,26 @@ func (s *Server) createMintTransaction(ctx context.Context, destination string, 
 	}
 	contractAddress := common.HexToAddress(ContractAddr)
 	latestBlockFilter := (*big.Int)(nil)
-	// network call to the blockchain node to get the next nonce to use
+	// rpc call to read the blockchain node to get the next nonce to use
 	currentNonce, err := s.ethClient.NonceAt(ctx, OwnerTransactor.From, latestBlockFilter)
 	if err != nil {
 		return nil, err
 	}
+	// rpc call to read the blockchain node to get the current base fee
+	header, err := s.ethClient.HeaderByNumber(ctx, latestBlockFilter)
+	if err != nil {
+		return nil, err
+	}
+	// rpc call to read the blockchain node to get a suggested tip cap based on recent tip caps on previous blocks
+	suggestedTipCap, err := s.ethClient.SuggestGasTipCap(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return types.NewTx(&types.DynamicFeeTx{
-		ChainID:   GanacheChainID,
+		ChainID:   ChainIDLocal,
 		Nonce:     currentNonce,
-		GasFeeCap: big.NewInt(1000000),      // TODO: I don't even know how the new cap model works
-		GasTipCap: big.NewInt(1000000),      // 1 gwei isn't very much in real life, you'll likely pay more
+		GasFeeCap: header.BaseFee,           // TODO: I don't even know how the new cap model works
+		GasTipCap: suggestedTipCap,          // 1 gwei isn't very much in real life, you'll likely pay more
 		Gas:       OwnerTransactor.GasLimit, // gas limit - an upper bound on how much compute your transaction will use
 		To:        &contractAddress,
 		Value:     big.NewInt(0), // amount of Eth being transferred
