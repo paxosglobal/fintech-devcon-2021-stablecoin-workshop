@@ -1,14 +1,14 @@
 # prerequisites
+# install golang https://golang.org/doc/install
 # install docker https://docs.docker.com/get-docker/
 # install node https://nodejs.org/en/download/
-# install golang https://golang.org/doc/install
 
 # for a quicker option on mac, you can use the homebrew based helper: `make bootstrap-homebrew`
 bootstrap-homebrew:
 	which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	which go || brew install go
 	which docker || brew cask install docker
 	which node || brew install node
-	which go || brew install go
 
 contract-bindings: SHELL:=/usr/bin/env bash
 contract-bindings: contracts/USDK.sol
