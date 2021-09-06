@@ -3,7 +3,7 @@ Fintech DevCon 2021 Stablecoin Workshop
 
 # Slides
 
-TODO: link
+https://github.com/paxosglobal/fintech-devcon-2021-stablecoin-workshop/raw/master/slides.pdf
 
 # Setup
 
