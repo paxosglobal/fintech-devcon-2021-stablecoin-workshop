@@ -16,8 +16,4 @@ https://github.com/paxosglobal/fintech-devcon-2021-stablecoin-workshop/raw/maste
 1. Look for `TODO` in `mint.go` to fill out the function `mintWithExplicitSigning`
 2. Test it with `go test ./pkg/server -run TestMint` OR `make exercise-3`
 
-HINT all of the functions that you need to call are in the same file `mint.go`
-
-## One: Finish the smart contract and deploy it
-
-Checkout `exercise-1` and follow the slides!
+HINT: all of the functions that you need to call are in the same file `mint.go`
