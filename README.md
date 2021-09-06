@@ -11,23 +11,14 @@ https://github.com/paxosglobal/fintech-devcon-2021-stablecoin-workshop/raw/maste
 - install docker https://docs.docker.com/get-docker/
 - install node https://nodejs.org/en/download/
 
-# Exercises
+# This is Exercise 4: Use MetaMask To Receive Tokens
 
-## One: Finish the smart contract and deploy it
-
-Checkout `exercise-1` and follow the slides!
-
-## Two: Create a mint transaction
-
-Checkout `exercise-2` and follow the slides!
-
-## Three: Explicitly Sign A Mint Transaction
-
-Checkout `exercise-3` and follow the slides!
-
-## Four Use MetaMask To Receive Tokens
-
-Checkout `exercise-4` and follow the slides!
+- Install metamask https://metamask.io/
+- Create a wallet and a first address to send new tokens to
+- Mint tokens to your metamask address using the UI http://localhost:3000/
+  - Make sure to follow `Run it` below to get the app started
+- Add the token to metamask to see the tokens you recieved
+  - The contract address to add should be `0xc4680463046E64b10Da390d9049D24b8EC43AaAB`
 
 # Run it
 
