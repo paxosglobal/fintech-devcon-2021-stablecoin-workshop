@@ -25,7 +25,10 @@ contract UsdToken is ERC20, Ownable {
      */
     function mint(address account, uint256 amount) public onlyOwner {
         // TODO: fill out this function for exercise 1!
-        // Hint: Smart Contracts can call functions on contracts they inherit
+        // HINT: Smart Contracts can call functions on contracts they inherit. This contract imports
+        // [ERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol),
+        // [Ownable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol), and
+        // [SafeMath.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/math/SafeMath.sol).
     }
 
     /**
