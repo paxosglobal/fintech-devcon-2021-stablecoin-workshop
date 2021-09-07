@@ -56,5 +56,6 @@ func (s *Server) mint(destination string, amount decimal.Decimal) error {
 
 func (s *Server) mintWithBindings(destination string, amount decimal.Decimal) error {
 	// TODO: fill out this function for exercise 2!
+	// test it with `go test ./pkg/server -run TestMint`
 	return nil
 }
