@@ -25,6 +25,7 @@ contract UsdToken is ERC20, Ownable {
      */
     function mint(address account, uint256 amount) public onlyOwner {
         // TODO: fill out this function for exercise 1!
+        // Hint: Smart Contracts can call functions on contracts they inherit
     }
 
     /**
