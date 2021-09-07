@@ -58,12 +58,24 @@ func (s *Server) mint(destination string, amount decimal.Decimal) error {
 }
 
 func (s *Server) mintWithBindings(destination string, amount decimal.Decimal) error {
-	usdkBindings, err := contracts.NewUSDK(common.HexToAddress(ContractAddr), s.ethClient)
+	usdkBindings, err := s.getUSDKBindings()
 	if err != nil {
 		return err
 	}
-	_, err = usdkBindings.Mint(OwnerTransactor, common.HexToAddress(destination), amount.Mul(DecimalToInt).BigInt())
+	_, err = usdkBindings.Mint(OwnerTransactor, addrToGethAddr(destination), decimalToBigInt(amount))
 	return err
+}
+
+func (s *Server) getUSDKBindings() (*contracts.USDK, error) {
+	return contracts.NewUSDK(addrToGethAddr(ContractAddr), s.ethClient)
+}
+
+func addrToGethAddr(addr string) common.Address {
+	return common.HexToAddress(addr)
+}
+
+func decimalToBigInt(amount decimal.Decimal) *big.Int {
+	return amount.Mul(DecimalToInt).BigInt()
 }
 
 func (s *Server) mintWithExplicitSigning(destination string, amount decimal.Decimal) error {
