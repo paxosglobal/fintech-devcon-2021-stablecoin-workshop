@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	contracts "github.com/paxosglobal/fintech-devcon-2021-stablecoin-workshop/build"
 	"github.com/shopspring/decimal"
@@ -58,4 +59,16 @@ func (s *Server) mintWithBindings(destination string, amount decimal.Decimal) er
 	// TODO: fill out this function for exercise 2!
 	// test it with `go test ./pkg/server -run TestMint`
 	return nil
+}
+
+func (s *Server) getUSDKBindings() (*contracts.USDK, error) {
+	return contracts.NewUSDK(addrToGethAddr(ContractAddr), s.ethClient)
+}
+
+func addrToGethAddr(addr string) common.Address {
+	return common.HexToAddress(addr)
+}
+
+func decimalToBigInt(amount decimal.Decimal) *big.Int {
+	return amount.Mul(DecimalToInt).BigInt()
 }

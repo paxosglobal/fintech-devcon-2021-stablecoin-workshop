@@ -29,3 +29,6 @@ run-backend:
 
 run-frontend:
 	@cd webapp && npm install && npm start
+
+exercise-2:
+	@go test ./pkg/server -run TestMint
