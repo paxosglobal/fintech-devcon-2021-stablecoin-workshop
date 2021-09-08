@@ -12,7 +12,7 @@ https://github.com/paxosglobal/fintech-devcon-2021-stablecoin-workshop/raw/maste
 - install docker https://docs.docker.com/get-docker/
 - install node https://nodejs.org/en/download/
 
-# This is Exercise 1
+# This is Exercise 2
 
 1. Look for `TODO` in `mint.go` to fill out the function `mintWithBindings`
 2. Test it with `go test ./pkg/server -run TestMint` OR `make exercise-2`
