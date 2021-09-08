@@ -99,8 +99,8 @@ func (s *Server) createMintTransaction(ctx context.Context, destination string, 
 		ChainID:   ChainIDLocal,
 		Nonce:     currentNonce,
 		GasFeeCap: (&big.Int{}).Add(header.BaseFee, suggestedTipCap),
-		GasTipCap: suggestedTipCap,          // 1 gwei isn't very much in real life, you'll likely pay more
-		Gas:       OwnerTransactor.GasLimit, // gas limit - an upper bound on how much compute your transaction will use
+		GasTipCap: suggestedTipCap, // 1 gwei isn't very much in real life, you'll likely pay more
+		Gas:       100000,          // gas limit - an upper bound on how much compute your transaction will use. in production, use a node to estimate this and add a buffer
 		To:        &contractAddress,
 		Value:     big.NewInt(0), // amount of Eth being transferred
 		Data:      data,          // the smart contract call
